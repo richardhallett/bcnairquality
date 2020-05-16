@@ -83,6 +83,7 @@ def airquality_2020_trend():
 
     chart = pygal.StackedLine(
         title=u'Barcelona Air Quality - 2020 Overview',
+        y_title="micrograms per cubic meter air µg/m³",
         x_title="Average over 7 days",
         x_label_rotation=20,
         fill=True,
