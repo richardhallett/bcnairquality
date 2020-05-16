@@ -18,6 +18,9 @@ CODE_MAP = {
 
 OUTPUT_DIR = 'output/'
 
+style = pygal.style.LightSolarizedStyle(
+    colors=('#e86258', '#ffec12', '#14e35d', '#53f5ed', '#b753f5'))
+
 
 def parse_bcn_airquality_data_file(filename):
     with open('data/' + filename, newline='') as csvfile:
@@ -81,14 +84,15 @@ def airquality_2020_trend():
 
     # Build and render chart
 
-    chart = pygal.StackedLine(
+    chart = pygal.Line(
         title=u'Barcelona Air Quality - 2020 Overview',
         y_title="micrograms per cubic meter air µg/m³",
         x_title="Average over 7 days",
         x_label_rotation=20,
-        fill=True,
+        fill=False,
         show_dots=False,
-        show_minor_x_labels=False
+        show_minor_x_labels=False,
+        style=style
     )
 
     dates = df.index.tolist()
@@ -102,6 +106,7 @@ def airquality_2020_trend():
     chart.x_labels_major = dates[::7]
 
     chart.render_to_file(OUTPUT_DIR + 'airquality_overview_2020_Jan-Apr.svg')
+    chart.render_to_png(OUTPUT_DIR + 'airquality_overview_2020_Jan-Apr.png')
 
 
 def airquality_april_to_april():
@@ -125,7 +130,7 @@ def airquality_april_to_april():
 
     # Build and render charts
     dates = df_apr_2020.index.tolist()
-    style = pygal.style.DefaultStyle()
+    #style = pygal.style.LightSolarizedStyle()
 
     # NO2
     chart = pygal.HorizontalBar(
@@ -137,8 +142,8 @@ def airquality_april_to_april():
     )
 
     chart.x_labels = dates
-    chart.add('Apr 2019 - NO2', df_apr_2019['NO2'])
-    chart.add('Apr 2020 - NO2', df_apr_2020['NO2'])
+    chart.add('Apr 2019', df_apr_2019['NO2'])
+    chart.add('Apr 2020', df_apr_2020['NO2'])
 
     chart.render_to_file(OUTPUT_DIR + 'airquality_apr19-20-NO2.svg')
 
@@ -152,8 +157,8 @@ def airquality_april_to_april():
     )
 
     chart.x_labels = dates
-    chart.add('Apr 2019 - PM10', df_apr_2019['PM10'])
-    chart.add('Apr 2020 - PM10', df_apr_2020['PM10'])
+    chart.add('Apr 2019', df_apr_2019['PM10'])
+    chart.add('Apr 2020', df_apr_2020['PM10'])
 
     chart.render_to_file(OUTPUT_DIR + 'airquality_apr19-20-PM10.svg')
 
