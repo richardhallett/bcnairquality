@@ -11,3 +11,10 @@ Using the data from https://opendata-ajuntament.barcelona.cat/data/en/dataset/qu
 
 ### Comparisons between April 2019 and April 2020 for PM10
 ![Graph showing NO2 comparisons Apr 2019 to Apr 2020](./output/airquality_apr19-20-PM10.svg)
+
+
+## Running the code
+
+1. git clone
+2. pipenv install
+3. pipenv run airquality.py

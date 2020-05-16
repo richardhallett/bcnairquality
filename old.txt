@@ -1,0 +1,60 @@
+
+   # chart = pygal.DateLine(
+    #     title=u'Barcelona Air Quality 2020',
+    #     x_label_rotation=20,
+    #     fill=True,
+    #     interpolate='cubic',
+    #     show_dots=False,
+    #     style=DarkSolarizedStyle
+    # )
+
+    # chart.x_labels = [
+    #     datetime.date(2020, 1, 1),
+    #     datetime.date(2020, 2, 1),
+    #     datetime.date(2020, 3, 1),
+    #     datetime.date(2020, 3, 15),
+    #     datetime.date(2020, 4, 1),
+    #     datetime.date(2020, 4, 30)
+    # ]
+    # chart.x_labels = [
+    #     datetime.date(2020, 1, 1),
+    #     datetime.date(2020, 2, 1),
+    #     datetime.date(2020, 3, 1),
+    #     datetime.date(2020, 3, 15),
+    #     datetime.date(2020, 4, 1),
+    #     datetime.date(2020, 4, 30)
+    # ]
+    # chart.add('NO', data['NO'].items())
+    # chart.add('NO2', data['NO2'].items())
+    # chart.add('NOx', data['NOx'].items())
+    # chart.add('PM10', data['PM10'].items())
+    # chart.add('SO2', data['SO2'].items())
+
+    # chart.render_to_file('pollution.svg')
+
+
+    # print(get_latest_data())
+
+    # data = parse_bcn(DATA_FILE_DAILY)
+    # df = pd.DataFrame(data)
+    # df = df.append(pd.DataFrame(
+    #     parse_bcn("2020_01_Gener_qualitat_aire_BCN.csv")))
+    # df = df.append(pd.DataFrame(
+    #     parse_bcn("2020_02_Febrer_qualitat_aire_BCN.csv")))
+    # df = df.append(pd.DataFrame(
+    #     parse_bcn("2020_03_Marc_qualitat_aire_BCN.csv")))
+
+    # df = df.groupby(['date', 'type'], as_index=False)['daily_avg'].mean()
+
+    # # df = pd.pivot(df, index='date', columns='type',
+    # #              values='daily_avg')
+
+    # # df = pd.pivot_table(df, index='date', columns='type',
+    # #                     values='daily_avg', fill_value=0)
+
+    # print(df)
+
+    # #df = df[df['type']=='NO2']
+    # # df.to_csv('airquality.csv')
+
+    # df.to_json('airquality.json', orient='records')

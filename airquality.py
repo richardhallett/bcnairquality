@@ -6,7 +6,6 @@ import datetime
 import pygal
 
 DATA_FILE_DAILY = 'Qualitat_Aire_Detall.csv'
-MONTHLY_FILE_DAILY = 'Qualitat_Aire_Detall.csv'
 CODE_MAP = {
     1: 'SO2',
     7: 'NO',
@@ -60,8 +59,6 @@ def parse_bcn_airquality_data_file(filename):
 
         return data
 
-# Output json
-
 
 def airquality_2020_trend():
     df = pd.DataFrame([])
@@ -107,7 +104,6 @@ def airquality_2020_trend():
 
 
 def airquality_april_to_april():
-
     df_apr_2019 = pd.DataFrame(parse_bcn_airquality_data_file(
         "2019_04_Abril_qualitat_aire_BCN.csv"))
 
