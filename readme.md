@@ -17,4 +17,4 @@ Using the data from https://opendata-ajuntament.barcelona.cat/data/en/dataset/qu
 
 1. git clone
 2. pipenv install
-3. pipenv run airquality.py
+3. pipenv run python airquality.py
