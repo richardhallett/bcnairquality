@@ -63,7 +63,7 @@ def parse_bcn_airquality_data_file(filename):
         return data
 
 
-def airquality_2020_trend():
+def get_2020_trend_df(average_over=7):
     df = pd.DataFrame([])
     df = df.append(pd.DataFrame(
         parse_bcn_airquality_data_file("2020_01_Gener_qualitat_aire_BCN.csv")))
@@ -73,6 +73,10 @@ def airquality_2020_trend():
         parse_bcn_airquality_data_file("2020_03_Marc_qualitat_aire_BCN.csv")))
     df = df.append(pd.DataFrame(
         parse_bcn_airquality_data_file("2020_04_Abril_qualitat_aire_BCN.csv")))
+    df = df.append(pd.DataFrame(
+        parse_bcn_airquality_data_file("2020_05_Maig_qualitat_aire_BCN.csv")))
+    df = df.append(pd.DataFrame(
+        parse_bcn_airquality_data_file("2020_06_Juny_qualitat_aire_BCN.csv")))
 
     df = df.groupby(['date', 'type'], as_index=False)['daily_avg'].mean()
 
@@ -80,8 +84,13 @@ def airquality_2020_trend():
                         values='daily_avg', fill_value=0)
 
     # Calculate average value over 7 days
-    df = df.rolling(7).mean().dropna()
+    df = df.rolling(average_over).mean().dropna()
 
+    return df
+
+
+def airquality_2020_trend():
+    df = get_2020_trend_df()
     # Build and render chart
 
     chart = pygal.Line(
@@ -105,8 +114,39 @@ def airquality_2020_trend():
     chart.add('SO2', df['SO2'])
     chart.x_labels_major = dates[::7]
 
-    chart.render_to_file(OUTPUT_DIR + 'airquality_overview_2020_Jan-Apr.svg')
-    chart.render_to_png(OUTPUT_DIR + 'airquality_overview_2020_Jan-Apr.png')
+    chart.render_to_file(
+        OUTPUT_DIR + 'airquality_overview_2020_Jan-Jun.svg')
+    chart.render_to_png(
+        OUTPUT_DIR + 'airquality_overview_2020_Jan-Jun.png')
+
+
+def airquality_2020_trend_no2():
+    df = get_2020_trend_df(14)
+
+    # Build and render chart
+
+    chart = pygal.Line(
+        title=u'Barcelona Air Quality - 2020 NO2 Overview',
+        y_title="micrograms per cubic meter air µg/m³",
+        x_title="Average over 14 days",
+        x_label_rotation=20,
+        fill=True,
+        show_dots=False,
+        show_minor_x_labels=False,
+        style=style,
+        x_value_formatter=lambda dt: dt.strftime('%d, %b')
+    )
+
+    dates = df.index.tolist()
+
+    chart.x_labels = dates
+    chart.add('NO2', df['NO2'])
+    chart.x_labels_major = dates[::14]
+
+    chart.render_to_file(
+        OUTPUT_DIR + 'airquality_overview_2020_Jan-Jun-No2.svg')
+    chart.render_to_png(
+        OUTPUT_DIR + 'airquality_overview_2020_Jan-Jun-No2.png')
 
 
 def airquality_april_to_april():
@@ -130,7 +170,7 @@ def airquality_april_to_april():
 
     # Build and render charts
     dates = df_apr_2020.index.tolist()
-    #style = pygal.style.LightSolarizedStyle()
+    # style = pygal.style.LightSolarizedStyle()
 
     # NO2
     chart = pygal.HorizontalBar(
@@ -165,4 +205,5 @@ def airquality_april_to_april():
 
 if __name__ == "__main__":
     airquality_2020_trend()
+    airquality_2020_trend_no2()
     airquality_april_to_april()
