@@ -97,14 +97,14 @@ def get_2020_trend_df(average_over=7):
     df = pd.pivot_table(df, index='date', columns='type',
                         values='daily_avg', fill_value=0)
 
-    # Calculate average value over 7 days
+    # Calculate average value over X days
     df = df.rolling(average_over).mean().dropna()
 
     return df
 
 
 def airquality_2020_trend():
-    df = get_2020_trend_df()
+    df = get_2020_trend_df(14)
     # Build and render chart
 
     chart = pygal.Line(
