@@ -51,14 +51,16 @@ def parse_bcn_airquality_data_file(filename):
                 if row[validation_key] == 'V':
                     hourly_measures.append(float(row[data_key]))
 
-            avg_daily_measure = round(statistics.mean(hourly_measures), 2)
+            # Only calculate and add average if we have data
+            if hourly_measures:
+                avg_daily_measure = round(statistics.mean(hourly_measures), 2)
 
-            data.append({
-                'date': datestamp,
-                'station': monitor_station,
-                'type': CODE_MAP[code],
-                'daily_avg': avg_daily_measure
-            })
+                data.append({
+                    'date': datestamp,
+                    'station': monitor_station,
+                    'type': CODE_MAP[code],
+                    'daily_avg': avg_daily_measure
+                })
 
         return data
 
@@ -77,6 +79,18 @@ def get_2020_trend_df(average_over=7):
         parse_bcn_airquality_data_file("2020_05_Maig_qualitat_aire_BCN.csv")))
     df = df.append(pd.DataFrame(
         parse_bcn_airquality_data_file("2020_06_Juny_qualitat_aire_BCN.csv")))
+    df = df.append(pd.DataFrame(
+        parse_bcn_airquality_data_file("2020_07_Juliol_qualitat_aire_BCN.csv")))
+    df = df.append(pd.DataFrame(
+        parse_bcn_airquality_data_file("2020_08_Agost_qualitat_aire_BCN.csv")))
+    df = df.append(pd.DataFrame(
+        parse_bcn_airquality_data_file("2020_09_Setembre_qualitat_aire_BCN.csv")))
+    df = df.append(pd.DataFrame(
+        parse_bcn_airquality_data_file("2020_10_Octubre_qualitat_aire_BCN.csv")))
+    df = df.append(pd.DataFrame(
+        parse_bcn_airquality_data_file("2020_11_Novembre_qualitat_aire_BCN.csv")))
+    df = df.append(pd.DataFrame(
+        parse_bcn_airquality_data_file("2020_12_Desembre_qualitat_aire_BCN.csv")))
 
     df = df.groupby(['date', 'type'], as_index=False)['daily_avg'].mean()
 
@@ -96,7 +110,7 @@ def airquality_2020_trend():
     chart = pygal.Line(
         title=u'Barcelona Air Quality - 2020 Overview',
         y_title="micrograms per cubic meter air µg/m³",
-        x_title="Average over 7 days",
+        x_title="Average over 14 days",
         x_label_rotation=20,
         fill=False,
         show_dots=False,
@@ -112,12 +126,12 @@ def airquality_2020_trend():
     chart.add('NOx', df['NOx'])
     chart.add('PM10', df['PM10'])
     chart.add('SO2', df['SO2'])
-    chart.x_labels_major = dates[::7]
+    chart.x_labels_major = dates[::14]
 
     chart.render_to_file(
-        OUTPUT_DIR + 'airquality_overview_2020_Jan-Jun.svg')
+        OUTPUT_DIR + 'airquality_overview_2020.svg')
     chart.render_to_png(
-        OUTPUT_DIR + 'airquality_overview_2020_Jan-Jun.png')
+        OUTPUT_DIR + 'airquality_overview_2020.png')
 
 
 def airquality_2020_trend_no2():
@@ -144,9 +158,9 @@ def airquality_2020_trend_no2():
     chart.x_labels_major = dates[::14]
 
     chart.render_to_file(
-        OUTPUT_DIR + 'airquality_overview_2020_Jan-Jun-No2.svg')
+        OUTPUT_DIR + 'airquality_overview_2020_No2.svg')
     chart.render_to_png(
-        OUTPUT_DIR + 'airquality_overview_2020_Jan-Jun-No2.png')
+        OUTPUT_DIR + 'airquality_overview_2020_No2.png')
 
 
 def airquality_april_to_april():
